@@ -77,6 +77,8 @@ kotlin {
             implementation(libs.koin.core)
             implementation(libs.koin.compose)
             implementation("media.kamel:kamel-image:0.6.0")
+            api(libs.coil3)
+            api(libs.coil3.network)
         }
 
         commonTest.dependencies {
@@ -93,6 +95,10 @@ kotlin {
             implementation(libs.ktor.client.okhttp)
             implementation(libs.sqlDelight.driver.android)
             implementation(libs.koin.android)
+            api(libs.coil3.gif)
+            api(libs.coil3.svg)
+            api(libs.coil3.core)
+            api(libs.coil3.video)
 
         }
 

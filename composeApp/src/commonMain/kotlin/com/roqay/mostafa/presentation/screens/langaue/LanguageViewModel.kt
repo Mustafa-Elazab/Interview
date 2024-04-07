@@ -40,14 +40,12 @@ class LanguageViewModel(private val getAllLanguages: GetAllLanguagesUseCase) :
             when (val response = getAllLanguages.block(Unit)) {
                 is Resource.Failure -> {
                     setState { copy(languages = Resource.Failure(response.exception)) }
-                    android.util.Log.d("STATE", "Content: ${response.exception}")
                 }
                 Resource.Loading -> {
                     setState { copy(languages = Resource.Loading) }
                 }
                 is Resource.Success -> {
                     setState { copy(languages = Resource.Success(response.result)) }
-                    android.util.Log.d("STATE", "Content: ${response.result}")
                 }
             }
         }

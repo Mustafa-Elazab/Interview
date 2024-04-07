@@ -8,6 +8,7 @@ import com.roqay.mostafa.domain.repository.HomeRepository
 import com.roqay.mostafa.domain.usecases.GetAllLanguagesUseCase
 import com.roqay.mostafa.domain.usecases.GetAllQuestionsUseCase
 import com.roqay.mostafa.presentation.screens.langaue.LanguageViewModel
+import com.roqay.mostafa.presentation.screens.questions.QuestionViewModel
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.logging.DEFAULT
@@ -39,15 +40,12 @@ fun initKoin(appDeclaration: KoinAppDeclaration = {}) =
 
 val viewModelModule = module {
     factory { LanguageViewModel(get()) }
-//    factory { CharactersFavoritesViewModel(get()) }
-//    factory { params -> CharacterDetailViewModel(get(), get(), get(), params.get()) }
+    factory { params -> QuestionViewModel(get(),params.get()) }
 }
-//
 val useCasesModule: Module = module {
     factory { GetAllLanguagesUseCase(get(), get()) }
     factory { GetAllQuestionsUseCase(get(), get()) }
 }
-//
 val repositoryModule = module {
     single<HomeRepository> { HomeRepositoryImpl(get()) }
   //  single<ICacheData> { CacheDataImp(get()) }

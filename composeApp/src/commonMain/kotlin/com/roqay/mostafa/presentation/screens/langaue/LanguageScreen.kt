@@ -1,6 +1,7 @@
 package com.roqay.mostafa.presentation.screens.langaue
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -21,15 +22,24 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import coil3.compose.AsyncImage
 import com.roqay.mostafa.data.remote.dto.LanguageDTO
-import com.roqay.mostafa.presentation.compoents.composable.LoadImage
 import com.roqay.mostafa.presentation.compoents.state.ManagementResourceUiState
+import com.roqay.mostafa.presentation.screens.questions.QuestionScreen
 import interview.composeapp.generated.resources.Res
 import interview.composeapp.generated.resources.ic_cyclone
 import io.github.aakira.napier.Napier
@@ -41,6 +51,7 @@ import org.jetbrains.compose.resources.vectorResource
 class LanguageScreen : Screen {
     override val key: ScreenKey = uniqueScreenKey
 
+    @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     override fun Content() {
         val languagesViewModel = getScreenModel<LanguageViewModel>()
@@ -49,18 +60,28 @@ class LanguageScreen : Screen {
 
         LaunchedEffect(key1 = Unit) {
             languagesViewModel.effect.collectLatest { effect ->
-//                when (effect) {
-//                    is CharactersContract.Effect.NavigateToDetailCharacter ->
-//                        navigator.push(CharacterDetailScreen(effect.idCharacter))
-//
-//                    is LanguageContract.Effect.NavigateToDetail -> navigator.push()
-//                }
+                when (effect) {
+                    is LanguageContract.Effect.NavigateToDetail ->
+                        navigator.push(QuestionScreen(effect.id))
+
+                }
             }
         }
 
         Scaffold(
-            //     topBar = { ActionAppBar { languagesViewModel.setEvent(LanguageContract.Event.OnLanguageClick) } }
-        ) { padding ->
+            topBar = {
+                TopAppBar(
+                    colors = topAppBarColors(
+                        containerColor = MaterialTheme.colorScheme.primaryContainer,
+                        titleContentColor = MaterialTheme.colorScheme.primary,
+                    ),
+                    title = {
+                        Text("Language")
+                    }
+                )
+            },
+
+            ) { padding ->
             ManagementResourceUiState(
                 modifier = Modifier
                     .padding(padding)
@@ -90,17 +111,24 @@ fun LanguagesList(
     languages: List<LanguageDTO>,
     onLanguageClick: (Int) -> Unit,
 ) {
-    LazyColumn(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Top
-    ) {
-        items(languages) { language ->
-            LanguageItem(
+
+    LazyVerticalGrid(
+        columns = GridCells.Fixed(2),
+        contentPadding = PaddingValues(
+            start = 4.dp,
+            top = 4.dp,
+            end = 4.dp,
+            bottom = 4.dp
+        ),
+        content = {
+            items(languages) { language ->
+                LanguageItem(
                 language = language,
-                onClick = { onLanguageClick(language.languageId!!) }
-            )
+              onClick = { onLanguageClick(language.languageId!!) }
+           )
+            }
         }
-    }
+    )
 }
 
 @Composable
@@ -112,33 +140,14 @@ fun LanguageItem(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier.clickable(onClick = onClick)
     ) {
-        KamelImage(
-            asyncPainterResource(language.logo!!),
-            language.language,
-            contentScale = ContentScale.Fit,
-            modifier = Modifier.fillMaxWidth().height(200.dp),
-            onFailure = {
-                KamelImage(
-                    asyncPainterResource(language.logo!!),
-                    language.language,
-                    contentScale = ContentScale.Fit,
-                    onLoading =  { progress -> CircularProgressIndicator(progress) },
-                    modifier = Modifier.fillMaxWidth().height(200.dp),
-                    onFailure = {
-                        Image(
-                            modifier = Modifier,
-                            contentScale = ContentScale.Fit,
-                            imageVector = vectorResource(Res.drawable.ic_cyclone),
-                            contentDescription = null
-                        )
-                    }
-                )
-            }
+        AsyncImage(
+            language.logo,
+            null,
+            modifier = Modifier.height(120.dp).aspectRatio(1.0f).padding(4.dp),
+            contentScale = ContentScale.FillBounds,
         )
         Text(
             text = language.language!!,
-            modifier = Modifier
-                .fillMaxWidth(),
         )
     }
 }

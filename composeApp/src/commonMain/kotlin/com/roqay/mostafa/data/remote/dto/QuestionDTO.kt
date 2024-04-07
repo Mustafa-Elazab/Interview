@@ -14,14 +14,14 @@ data class QuestionsDTO(
 
 @Serializable
 data class QuestionDTO(
-    val answer: String,
-    val language: String,
-    val languageId: Int,
-    val languageTopicId: Int,
-    val logo: String,
-    val orderNo: Int,
-    val question: String,
-    val questionId: Int,
-    val tags: String,
-    val topicName: String
+    val answer: String?=null,
+    val language: String?=null,
+    val languageId: Int?=null,
+    val languageTopicId: Int?=null,
+    val logo: String?=null,
+    val orderNo: Int?=null,
+    val question: String?=null,
+    val questionId: Int?=null,
+    val tags: String?=null,
+    val topicName: String?=null
 )
