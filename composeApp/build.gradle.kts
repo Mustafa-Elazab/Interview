@@ -76,9 +76,9 @@ kotlin {
             implementation(libs.multiplatformSettings)
             implementation(libs.koin.core)
             implementation(libs.koin.compose)
-            implementation("media.kamel:kamel-image:0.6.0")
             api(libs.coil3)
             api(libs.coil3.network)
+            implementation("br.com.devsrsouza.compose.icons:font-awesome:1.1.0")
         }
 
         commonTest.dependencies {

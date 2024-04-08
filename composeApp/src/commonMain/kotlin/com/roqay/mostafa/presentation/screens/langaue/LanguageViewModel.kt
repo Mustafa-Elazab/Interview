@@ -28,9 +28,7 @@ class LanguageViewModel(private val getAllLanguages: GetAllLanguagesUseCase) :
                 }
             }
 
-            LanguageContract.Event.OnTryCheckAgainClick -> {
-                getLanguages()
-            }
+
         }
     }
 

@@ -40,13 +40,7 @@ import coil3.compose.AsyncImage
 import com.roqay.mostafa.data.remote.dto.LanguageDTO
 import com.roqay.mostafa.presentation.compoents.state.ManagementResourceUiState
 import com.roqay.mostafa.presentation.screens.questions.QuestionScreen
-import interview.composeapp.generated.resources.Res
-import interview.composeapp.generated.resources.ic_cyclone
-import io.github.aakira.napier.Napier
-import io.kamel.image.KamelImage
-import io.kamel.image.asyncPainterResource
-import org.jetbrains.compose.resources.painterResource
-import org.jetbrains.compose.resources.vectorResource
+
 
 class LanguageScreen : Screen {
     override val key: ScreenKey = uniqueScreenKey
@@ -99,8 +93,8 @@ class LanguageScreen : Screen {
                         }
                     )
                 },
-                onTryAgain = {  },
-                onCheckAgain = {  },
+//                onTryAgain = {  },
+//                onCheckAgain = {  },
            )
         }
     }

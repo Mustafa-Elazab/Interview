@@ -10,7 +10,6 @@ import com.roqay.mostafa.presentation.mvi.UiState
 interface LanguageContract {
 
     sealed interface Event : UiEvent {
-        object OnTryCheckAgainClick : Event
         data class OnLanguageClick(val id: Int) : Event
     }
 
