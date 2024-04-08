@@ -79,6 +79,7 @@ kotlin {
             api(libs.coil3)
             api(libs.coil3.network)
             implementation("br.com.devsrsouza.compose.icons:font-awesome:1.1.0")
+            implementation("br.com.devsrsouza.compose.icons:feather:1.1.0")
         }
 
         commonTest.dependencies {

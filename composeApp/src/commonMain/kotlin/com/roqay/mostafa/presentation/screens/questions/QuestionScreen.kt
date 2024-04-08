@@ -24,6 +24,9 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -36,13 +39,11 @@ import cafe.adriel.voyager.navigator.currentOrThrow
 import com.roqay.mostafa.data.remote.dto.QuestionDTO
 import com.roqay.mostafa.presentation.compoents.composable.CustomAppBar
 import com.roqay.mostafa.presentation.compoents.state.ManagementResourceUiState
-import com.roqay.mostafa.presentation.screens.langaue.LanguageContract
-import com.roqay.mostafa.presentation.screens.langaue.LanguageViewModel
-import com.roqay.mostafa.presentation.screens.langaue.LanguagesList
-import compose.icons.AllIcons
-import compose.icons.FontAwesomeIcons
-import compose.icons.fontawesomeicons.Regular
-import compose.icons.fontawesomeicons.regular.PlusSquare
+import compose.icons.FeatherIcons
+import compose.icons.feathericons.Image
+import compose.icons.feathericons.MinusCircle
+import compose.icons.feathericons.PlusCircle
+
 import org.koin.core.parameter.parametersOf
 
 class QuestionScreen(
@@ -90,6 +91,7 @@ class QuestionScreen(
 
      @Composable
     fun QuestionList(questions: List<QuestionDTO>) {
+         var isShown by remember { mutableStateOf(false) }
          LazyColumn(
              modifier = Modifier.fillMaxWidth(),
              contentPadding = PaddingValues(16.dp)
@@ -104,19 +106,24 @@ class QuestionScreen(
                  ) {
                      Row(
                          horizontalArrangement = Arrangement.SpaceBetween,
+                         verticalAlignment = Alignment.CenterVertically,
                          modifier = Modifier
                      ) {
                          Text(
                              questions.question!!,
                              style = MaterialTheme.typography.bodyMedium
                          )
-                         IconButton(onClick = {}, content = { Icon( imageVector = FontAwesomeIcons.Regular.PlusSquare,contentDescription = "Action") })
+                         IconButton(onClick = {
+                             isShown = !isShown
+                         }, content = { Icon( imageVector = if(isShown) FeatherIcons.PlusCircle else FeatherIcons.MinusCircle,contentDescription = "Action") })
                      }
 
-                     Text(
-                         questions.answer!!,
-                         style = MaterialTheme.typography.bodyMedium
-                     )
+                     if (isShown) {
+                         Text(
+                             text = questions.answer ?: "",
+                             style = MaterialTheme.typography.bodyMedium
+                         )
+                     }
                  }
              }
          }
